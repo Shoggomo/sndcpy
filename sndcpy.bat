@@ -29,7 +29,12 @@ if not "%1"=="" (
 :end
 
 :startForwarding
-  balloon "Device connected. Forwarding Audio." Information sndcp
+  set balloonText="Device connected. Forwarding Audio."
+  set balloonTitle=sndcp
+  set balloonIcon=Information
+
+  powershell -Command "[void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); $objNotifyIcon=New-Object System.Windows.Forms.NotifyIcon; $objNotifyIcon.BalloonTipText='%balloonText%'; $objNotifyIcon.Icon=[system.drawing.systemicons]::%balloonIcon%; $objNotifyIcon.BalloonTipTitle='%balloonTitle%'; $objNotifyIcon.BalloonTipIcon='None'; $objNotifyIcon.Visible=$True; $objNotifyIcon.ShowBalloonTip(5000);"
+  
 	%ADB% %serial% forward tcp:%SNDCPY_PORT% localabstract:sndcpy || goto :error
 	%ADB% %serial% shell am start com.rom1v.sndcpy/.MainActivity || goto :error
 :end
