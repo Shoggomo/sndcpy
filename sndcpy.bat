@@ -29,6 +29,7 @@ if not "%1"=="" (
 :end
 
 :startForwarding
+  balloon "Device connected. Forwarding Audio." Information sndcp
 	%ADB% %serial% forward tcp:%SNDCPY_PORT% localabstract:sndcpy || goto :error
 	%ADB% %serial% shell am start com.rom1v.sndcpy/.MainActivity || goto :error
 :end
